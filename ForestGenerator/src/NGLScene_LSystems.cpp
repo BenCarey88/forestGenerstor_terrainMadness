@@ -8,7 +8,7 @@
 void NGLScene::initializeLSystems()
 {
   m_LSystems.resize(m_numTreeTabs);
-  m_LSystemVAOs.resize(m_numTreeTabs);
+  m_treeVAOs.resize(m_numTreeTabs);
 
   std::string axiom;
   std::vector<std::string> rules;
@@ -43,5 +43,5 @@ void NGLScene::updateForest()
 {
   m_forest = Forest(m_LSystems, m_width, m_length, m_numTrees, m_numHeroTrees);
 
-  m_buildInstanceVAOs = true;
+  m_buildForestVAOs = true;
 }

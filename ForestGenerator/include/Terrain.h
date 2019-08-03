@@ -35,7 +35,7 @@ public:
   //PUBLIC MEMBER VARIABLES
   //--------------------------------------------------------------------------------------------------------------------
   std::vector<std::vector<ngl::Vec3>> m_vertices;
-  std::vector<std::vector<GLshort>> m_indices;
+  std::vector<std::vector<GLuint>> m_indices;
 
   std::vector<ngl::Vec3> m_vertexList;
   std::vector<size_t> m_indexList;

@@ -182,29 +182,29 @@ protected:
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief grid VAO
   //----------------------------------------------------------------------------------------------------------------------
-  std::unique_ptr<ngl::AbstractVAO> m_gridVao;
+  std::unique_ptr<ngl::AbstractVAO> m_gridVAO;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief terrain VAO
   //----------------------------------------------------------------------------------------------------------------------
-  std::unique_ptr<ngl::AbstractVAO> m_terrainVao;
+  std::unique_ptr<ngl::AbstractVAO> m_terrainVAO;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief VAOs for the LSystems
   //----------------------------------------------------------------------------------------------------------------------
-  std::vector<std::unique_ptr<ngl::AbstractVAO>> m_LSystemVAOs;
+  std::vector<std::unique_ptr<ngl::AbstractVAO>> m_treeVAOs;
 
   //nested std::vector of VAOs corresponding to instance caches for the forest rendering
   //outer layer separates the instance caches of the differing tree types
   //second layer separates within a cache by id
   //third layer separates by age
   //inner index corresponds to different instances of a given age and id
-  std::vector<CACHE_STRUCTURE(std::unique_ptr<ngl::AbstractVAO>)> m_instanceCacheVAOs;
+  std::vector<CACHE_STRUCTURE(std::unique_ptr<ngl::AbstractVAO>)> m_forestVAOs;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief bool to tell paintGL whether or not we need to rebuild the current LSystem VAO
   //----------------------------------------------------------------------------------------------------------------------
   bool m_buildTreeVAO = false;
 
-  bool m_buildInstanceVAOs = false;
+  bool m_buildForestVAOs = false;
   bool m_buildGridVAO = true;
 
   //----------------------------------------------------------------------------------------------------------------------
@@ -216,7 +216,7 @@ protected:
   //----------------------------------------------------------------------------------------------------------------------
   float m_width = 2000;
   float m_length = 2000;
-  size_t m_numTrees = 10000;
+  size_t m_numTrees = 1000;
   int m_numHeroTrees = 10;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief list of all L-Systems stored by the scene
@@ -277,15 +277,13 @@ protected:
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief build an openGL line VAO from lists of vertices and indices (used by paintGL)
   //----------------------------------------------------------------------------------------------------------------------
-  void buildVAO(std::vector<ngl::Vec3> &_vertices, std::vector<GLshort> &_indices,
-                GLenum _mode, std::unique_ptr<ngl::AbstractVAO> &_vao);
+  template <class dataType>
+  void buildVAO(std::unique_ptr<ngl::AbstractVAO> &_vao, std::vector<ngl::Vec3> &_vertices,
+                std::vector<dataType> &_indices, GLenum _mode, GLenum _indexType);
 
-  void buildInstanceCacheVAO(LSystem &_treeType, Instance &_instance,
-                             std::vector<ngl::Mat4> &_transforms,
-                             std::unique_ptr<ngl::AbstractVAO> &_vao);
-
-  std::vector<ngl::Vec3> m_tempVertices;
-  std::vector<GLshort> m_tempIndices;
+  void buildInstanceCacheVAO(std::unique_ptr<ngl::AbstractVAO> &_vao,
+                             LSystem &_treeType, Instance &_instance,
+                             std::vector<ngl::Mat4> &_transforms);
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set up the initial L-Systems for each treeTab screen, and sends them to the Forest class

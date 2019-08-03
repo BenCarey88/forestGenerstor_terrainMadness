@@ -74,6 +74,8 @@ void Forest::scatterForest()
 
   perlinModule.SetFrequency(double(5/m_width));
 
+  std::cout<<5/m_width<<"\n";
+  std::cout<<std::sqrt(m_width)<<"\n";
   for(size_t i=0; i<m_numTrees; i++)
   {
     ngl::Mat4 position;

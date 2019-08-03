@@ -13,8 +13,8 @@
 //----------------------------------------------------------------------------------------------------------------------
 //On construction, we fill m_vertices from the heightmap values, then assign all relevant attributes to the vertices
 
-TerrainData::TerrainData(int _dimension, std::vector<float> _heightMap, float _size) :
-    m_dimension(_dimension), m_heightMap(_heightMap), m_scale(_size/_dimension)
+TerrainData::TerrainData(TerrainGenerator &_terrainValues) :
+    m_dimension(_terrainValues.m_dimension), m_heightMap(_terrainValues.m_heightMap), m_scale(_terrainValues.m_scale)
 {
   //Fill m_vertices
   size_t dimension = size_t(m_dimension);
@@ -70,7 +70,7 @@ TerrainData::Vertex::Vertex(int _x, int _y, float _z, int _dimension, float _sca
   //for scene coordinates, centre the grid at (0,0) then scale
   sceneX = (float(_x-_dimension/2))*_scale;
   sceneY = (float(_y-_dimension/2))*_scale;
-  sceneZ = _z*_scale;
+  sceneZ = _z;//*_scale;
 }
 float TerrainData::Vertex::distanceTo(Vertex v) const
 {
@@ -114,7 +114,7 @@ void TerrainData::fillVerticesAndIndicesForRendering()
   }
   for(auto ind : m_indices)
   {
-    m_indicesToBeRendered.push_back(GLshort(ind));
+    m_indicesToBeRendered.push_back(GLuint(ind));
   }
 }
 

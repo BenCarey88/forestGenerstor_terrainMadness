@@ -71,13 +71,13 @@ void Terrain::generate()
   while(count<m_indexList.size())
   {
     std::vector<ngl::Vec3> verts = {};
-    std::vector<GLshort> inds = {};
-    size_t limit = count+30000;
+    std::vector<GLuint> inds = {};
+    size_t limit = count+4294967296;
     if(limit > m_indexList.size())
     {
       limit = m_indexList.size();
     }
-    GLshort index = 0;
+    GLuint index = 0;
     for(; count<limit; count++)
     {
       if(count%10==0)
@@ -85,7 +85,7 @@ void Terrain::generate()
          //std::cout<<"\n"<<count<<" "<<index<<" "<<m_indexList.size()<<"\n";
       }
       verts.push_back(m_vertexList.at(m_indexList.at(count)));
-      inds.push_back(GLshort(index));
+      inds.push_back(GLuint(index));
       index++;
     }
     m_vertices.push_back(verts);
