@@ -210,43 +210,7 @@ void NGLScene::paintGL()
     m_buildInstanceVAOs = false;
   }
 
-/*  (*shader)["TerrainShader"]->use();
-  shader->setUniform("MVP",MVP);
-  m_terrain.meshRefine(m_currentCamera->m_from, m_tolerance, 100.0);
-  buildVAO(m_terrain.m_vertsToBeRendered,
-           m_terrain.m_indicesToBeRendered,
-           GL_TRIANGLE_STRIP, m_terrainVao);
-  m_terrainVao->bind();
-  m_terrainVao->draw();
-  m_terrainVao->unbind();*/
-
-  (*shader)["TerrainShader"]->use();
-  shader->setUniform("MVP",MVP);
-
   m_terrainTest.generate();
-  size_t i=0;
-  while(i < m_terrainTest.m_indices[0].size())
-  {
-    m_tempVertices = {};
-    m_tempIndices = {};
-    size_t limit = std::min(m_terrainTest.m_indices[0].size(), i+60000);
-
-    for(; i<limit; i++)
-    {
-      m_tempVertices.push_back(m_terrainTest.m_vertices[0][m_terrainTest.m_indices[0][i]]);
-    }
-    for(size_t j=0; j<m_tempVertices.size(); j++)
-    {
-      m_tempIndices.push_back(GLshort(j));
-    }
-
-    buildVAO(m_tempVertices,
-             m_tempIndices,//m_terrainTest.m_indices[0],
-             GL_TRIANGLE_STRIP, m_terrainVao);
-    m_terrainVao->bind();
-    m_terrainVao->draw();
-    m_terrainVao->unbind();
-  }
 
   if(m_showGrid)
   {
@@ -269,6 +233,60 @@ void NGLScene::paintGL()
 
     case 1:
 
+    /*  (*shader)["TerrainShader"]->use();
+      shader->setUniform("MVP",MVP);
+      m_terrain.meshRefine(m_currentCamera->m_from, m_tolerance, 100.0);
+      buildVAO(m_terrain.m_vertsToBeRendered,
+               m_terrain.m_indicesToBeRendered,
+               GL_TRIANGLE_STRIP, m_terrainVao);
+      m_terrainVao->bind();
+      m_terrainVao->draw();
+      m_terrainVao->unbind();*/
+
+      (*shader)["TerrainShader"]->use();
+      shader->setUniform("MVP",MVP);
+
+
+      /*size_t i=0;
+      while(i < m_terrainTest.m_indices[0].size())
+      {
+        m_tempVertices = {};
+        m_tempIndices = {};
+        size_t limit = i+10000;
+        if(limit > m_terrainTest.m_indices[0].size())
+        {
+          limit = m_terrainTest.m_indices[0].size();
+        }
+
+        for(; i<limit; i++)
+        {
+          m_tempVertices.push_back(m_terrainTest.m_vertices[0][m_terrainTest.m_indices[0][i]]);
+        }
+        for(size_t j=0; j<m_tempVertices.size(); j++)
+        {
+          m_tempIndices.push_back(GLshort(j));
+        }
+        print(m_tempIndices.size());
+        newLine();
+        //print(m_tempIndices);
+        //newLine();
+
+        buildVAO(m_tempVertices,
+                 m_tempIndices,//m_terrainTest.m_indices[0],
+                 GL_TRIANGLE_STRIP, m_terrainVao);
+        m_terrainVao->bind();
+        m_terrainVao->draw();
+        m_terrainVao->unbind();
+      }*/
+      for(size_t i=0; i<m_terrainTest.m_vertices.size(); i++)
+      {
+        buildVAO(m_terrainTest.m_vertices.at(i),
+                 m_terrainTest.m_indices.at(i),
+                 GL_TRIANGLE_STRIP, m_terrainVao);
+        m_terrainVao->bind();
+        m_terrainVao->draw();
+        m_terrainVao->unbind();
+      }
       break;
 
     case 2:

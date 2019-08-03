@@ -258,6 +258,7 @@ protected:
   float m_tolerance = 0.02f;
 
   Terrain m_terrainTest;
+  Terrain m_terrainTest2;
 
   //PROTECTED MEMBER FUNCTIONS
   //----------------------------------------------------------------------------------------------------------------------

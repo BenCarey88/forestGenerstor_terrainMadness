@@ -37,9 +37,11 @@ public:
   std::vector<std::vector<ngl::Vec3>> m_vertices;
   std::vector<std::vector<GLshort>> m_indices;
 
+  std::vector<ngl::Vec3> m_vertexList;
+  std::vector<size_t> m_indexList;
 
   float m_width =100;
-  size_t m_numRows = 250;
+  size_t m_numRows = 600;
 
   //PUBLIC MEMBER FUNCTION
   //--------------------------------------------------------------------------------------------------------------------
@@ -49,7 +51,7 @@ public:
 
 private:
 
-  GLshort getIndex(size_t _x, size_t _y);
+  size_t getIndex(size_t _x, size_t _y);
 
 };
 
