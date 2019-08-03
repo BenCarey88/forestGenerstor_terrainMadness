@@ -24,8 +24,6 @@
 #include "Forest.h"
 #include "Grid.h"
 #include "TerrainData.h"
-#include "TerrainGenerator.h"
-#include "Terrain.h"
 
 #include <QEvent>
 #include <QResizeEvent>
@@ -244,10 +242,6 @@ protected:
   ngl::Mat4 * m_currentMouseTransform;
 
   //----------------------------------------------------------------------------------------------------------------------
-  /// @brief TerrainGenerator object used to generate heightmap values
-  //----------------------------------------------------------------------------------------------------------------------
-  TerrainGenerator m_terrainValues;
-  //----------------------------------------------------------------------------------------------------------------------
   /// @brief TerrainData object which applies LOD algorithms to the heightmap values from m_terrainValues and creates
   /// a vertex list to be passed into paintGL
   //----------------------------------------------------------------------------------------------------------------------
@@ -257,8 +251,8 @@ protected:
   //----------------------------------------------------------------------------------------------------------------------
   float m_tolerance = 0.02f;
 
-  Terrain m_terrainTest;
-  Terrain m_terrainTest2;
+  int m_terrainDimension;
+
 
   //PROTECTED MEMBER FUNCTIONS
   //----------------------------------------------------------------------------------------------------------------------

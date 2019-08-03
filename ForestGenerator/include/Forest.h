@@ -14,6 +14,7 @@
 #include <ngl/Vec3.h>
 #include <ngl/Mat4.h>
 #include "LSystem.h"
+#include "TerrainGenerator.h"
 
 //----------------------------------------------------------------------------------------------------------------------
 /// @class Forest
@@ -33,7 +34,10 @@ public:
   //--------------------------------------------------------------------------------------------------------------------
   /// @brief user ctor for Forest class
   //--------------------------------------------------------------------------------------------------------------------
-  Forest(const std::vector<LSystem> &_treeTypes, float _width, float _length, size_t _numTrees, int _numHeroTrees);
+  Forest(const std::vector<LSystem> &_treeTypes,
+         float _width, float _length,
+         size_t _numTrees, int _numHeroTrees,
+         int _terrainDimension);
 
   //TREE STRUCT
   //--------------------------------------------------------------------------------------------------------------------
@@ -109,6 +113,7 @@ public:
   //the random number generator
   std::default_random_engine m_gen;
 
+  TerrainGenerator m_terrainGen;
 
   //PUBLIC METHODS
   //--------------------------------------------------------------------------------------------------------------------

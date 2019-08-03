@@ -22,7 +22,7 @@ void TerrainGenerator::generate()
 
   for (int i =0; i<m_dimension*m_dimension; ++i)
   {
-    float height = float(perlinModule.GetValue(getSceneX(i),getSceneZ(i)/10,m_seed));
+    float height = float(perlinModule.GetValue(getSceneX(i),getSceneZ(i),m_seed));
     m_heightMap.push_back(m_amplitude*height);
   }
 }

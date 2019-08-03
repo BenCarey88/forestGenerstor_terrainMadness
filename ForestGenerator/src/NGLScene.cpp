@@ -37,8 +37,13 @@ NGLScene::NGLScene(QWidget *_parent) : QOpenGLWidget( _parent )
   m_mouseTransforms[1].resize(1);
   m_mouseTransforms[2].resize(1);
 
+  m_terrainDimension = 1025;
   initializeLSystems();
   m_forestVAOs.resize(m_numTreeTabs);
+  m_forest = Forest(m_LSystems,
+                    m_width, m_length,
+                    m_numTrees, m_numHeroTrees,
+                    m_terrainDimension);
 
   m_currentCamera = &m_cameras[0][0];
   m_currentMouseTransform = &m_mouseTransforms[0][0];
@@ -46,10 +51,8 @@ NGLScene::NGLScene(QWidget *_parent) : QOpenGLWidget( _parent )
 
   m_currentLSystem->createGeometry();
 
-  int dimension = 1025;
-  m_terrainValues = TerrainGenerator(dimension, m_width*1.01f);
-  m_terrainValues.generate();
-  m_terrain = TerrainData(m_terrainValues);
+  m_forest.m_terrainGen.generate();
+  m_terrain = TerrainData(m_forest.m_terrainGen);
 }
 
 NGLScene::~NGLScene()
@@ -299,6 +302,22 @@ void NGLScene::paintGL()
 
     case 2:
     {
+      (*shader)["TerrainShader"]->use();
+      shader->setUniform("MVP",MVP);
+
+      ngl::Vec3 from = m_currentCamera->m_from;
+      from = m_initialRotation.inverse()*m_currentMouseTransform->inverse()*from;
+      m_terrain.meshRefine(from, m_tolerance, 100.0);
+
+      buildVAO(m_terrainVAO,
+               m_terrain.m_vertsToBeRendered,
+               m_terrain.m_indicesToBeRendered,
+               GL_TRIANGLE_STRIP, GL_UNSIGNED_INT);
+      m_terrainVAO->bind();
+      m_terrainVAO->draw();
+      m_terrainVAO->unbind();
+
+
       (*shader)["ForestShader"]->use();
       shader->setUniform("MVP",MVP);
 
